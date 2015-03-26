@@ -1,5 +1,5 @@
-.# Eigenvalues
-Eigenvalues computation
+# Eigenvalues
+**Eigenvalues computation**
 
 The main goal of this project is to deduce the dynamic stability information for the first order differential system.
 During this process we'll use:
