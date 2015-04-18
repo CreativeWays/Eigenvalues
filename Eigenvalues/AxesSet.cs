@@ -9,8 +9,8 @@ namespace Eigenvalues
         public void SetAxes(double wxmin, double wxmax, double wymin, double wymax, double xstep, double ystep)
         {
             // Get the tic mark lengths.
-            Point p0 = DtoW(new Point(0, 0));
-            Point p1 = DtoW(new Point(2, 2));
+            Point p0 = AxesConverter.DtoW(new Point(0, 0));
+            Point p1 = AxesConverter.DtoW(new Point(2, 2));
             double xtic = p1.X - p0.X;
             double ytic = p1.Y - p0.Y;
 
@@ -18,13 +18,18 @@ namespace Eigenvalues
             GeometryGroup xaxis_geom = new GeometryGroup();
             p0 = new Point(wxmin, 0);
             p1 = new Point(wxmax, 0);
-            xaxis_geom.Children.Add(new LineGeometry(WtoD(p0), WtoD(p1)));
-
+            // Draw the line that starts in wxmin and ends in wxmax on Ox
+            xaxis_geom.Children.Add(
+                new LineGeometry(
+                    AxesConverter.WtoD(p0), AxesConverter.WtoD(p1)
+                    )
+                );
+            // Draw the tic marks and they labels
             for (double x = xstep; x <= wxmax - xstep; x += xstep)
             {
                 // Add the tic mark.
-                Point tic0 = WtoD(new Point(x, -ytic));
-                Point tic1 = WtoD(new Point(x, ytic));
+                Point tic0 = AxesConverter.WtoD(new Point(x, -ytic));
+                Point tic1 = AxesConverter.WtoD(new Point(x, ytic));
                 xaxis_geom.Children.Add(new LineGeometry(tic0, tic1));
 
                 // Label the tic mark's X coordinate.
@@ -34,6 +39,7 @@ namespace Eigenvalues
                     VerticalAlignment.Top);
             }
 
+            // Combine all lines (tic marks and Ox-axe) to 1 Path object that has color, thickness and other properties
             Path xaxis_path = new Path();
             xaxis_path.StrokeThickness = 1;
             xaxis_path.Stroke = Brushes.Black;
@@ -45,13 +51,17 @@ namespace Eigenvalues
             GeometryGroup yaxis_geom = new GeometryGroup();
             p0 = new Point(0, wymin);
             p1 = new Point(0, wymax);
-            xaxis_geom.Children.Add(new LineGeometry(WtoD(p0), WtoD(p1)));
+            xaxis_geom.Children.Add(
+                new LineGeometry(
+                    AxesConverter.WtoD(p0), AxesConverter.WtoD(p1)
+                    )
+                );
 
             for (double y = ystep; y <= wymax - ystep; y += ystep)
             {
                 // Add the tic mark.
-                Point tic0 = WtoD(new Point(-xtic, y));
-                Point tic1 = WtoD(new Point(xtic, y));
+                Point tic0 = AxesConverter.WtoD(new Point(-xtic, y));
+                Point tic1 = AxesConverter.WtoD(new Point(xtic, y));
                 xaxis_geom.Children.Add(new LineGeometry(tic0, tic1));
 
                 // Label the tic mark's Y coordinate.

@@ -12,45 +12,45 @@ namespace Eigenvalues
         {
             // Find the data point at the mouse's location.
             Point mouse_location = e.GetPosition(canGraph);
-            int data_set, point_number;
-            FindDataPoint(mouse_location, out data_set, out point_number);
+            int data_set;
+            FindDataPoint(mouse_location, out data_set);
             if (data_set < 0) return;
-            Point data_point = DataPoints[data_set][point_number];
+            Point data_point = _fullVectorsSet[data_set].ToPoint(_inputData.XOnGraph, _inputData.YOnGraph);
 
             // Make the data ellipse if we haven't already.
-            if (DataEllipse == null)
+            if (_dataEllipse == null)
             {
-                DataEllipse = new Ellipse();
-                DataEllipse.Fill = null;
-                DataEllipse.StrokeThickness = 1;
-                DataEllipse.Width = 7;
-                DataEllipse.Height = 7;
-                canGraph.Children.Add(DataEllipse);
+                _dataEllipse = new Ellipse();
+                _dataEllipse.Fill = null;
+                _dataEllipse.StrokeThickness = 1;
+                _dataEllipse.Width = 7;
+                _dataEllipse.Height = 7;
+                canGraph.Children.Add(_dataEllipse);
             }
 
             // Color and position the ellipse.
-            DataEllipse.Stroke = DataBrushes[data_set];
-            Canvas.SetLeft(DataEllipse, data_point.X - 3);
-            Canvas.SetTop(DataEllipse, data_point.Y - 3);
+            _dataEllipse.Stroke = _dataBrushes[data_set];
+            Canvas.SetLeft(_dataEllipse, data_point.X - 3);
+            Canvas.SetTop(_dataEllipse, data_point.Y - 3);
 
             // Make the data label if we haven't already.
-            if (DataLabel == null)
+            if (_dataLabel == null)
             {
-                DataLabel = new Label();
-                DataLabel.FontSize = 12;
-                canGraph.Children.Add(DataLabel);
+                _dataLabel = new Label();
+                _dataLabel.FontSize = 12;
+                canGraph.Children.Add(_dataLabel);
             }
 
             // Convert the data values back into world coordinates.
-            Point world_point = DtoW(data_point);
+            Point world_point = AxesConverter.DtoW(data_point);
 
             // Set the data label's text and position it.
-            DataLabel.Content = "(" +
+            _dataLabel.Content = "(" +
                 world_point.X.ToString("0.0") + ", " +
                 world_point.Y.ToString("0.0") + ")";
-            DataLabel.Measure(new Size(double.MaxValue, double.MaxValue));
-            Canvas.SetLeft(DataLabel, data_point.X + 4);
-            Canvas.SetTop(DataLabel, data_point.Y - DataLabel.DesiredSize.Height);
+            _dataLabel.Measure(new Size(double.MaxValue, double.MaxValue));
+            Canvas.SetLeft(_dataLabel, data_point.X + 4);
+            Canvas.SetTop(_dataLabel, data_point.Y - _dataLabel.DesiredSize.Height);
         }
 
         // Change the mouse cursor appropriately.
@@ -58,8 +58,8 @@ namespace Eigenvalues
         {
             // Find the data point at the mouse's location.
             Point mouse_location = e.GetPosition(canGraph);
-            int data_set, point_number;
-            FindDataPoint(mouse_location, out data_set, out point_number);
+            int data_set;
+            FindDataPoint(mouse_location, out data_set);
 
             // Display the appropriate cursor.
             if (data_set < 0)

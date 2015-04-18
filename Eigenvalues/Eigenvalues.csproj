@@ -53,10 +53,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Calculations.cs" />
+    <Compile Include="ClassPropertiesChangeEvents.cs" />
     <Compile Include="DrawHelpers.cs" />
     <Compile Include="EventsHelpers.cs" />
+    <Compile Include="InputData.cs" />
     <Compile Include="MouseEvents.cs" />
-    <Compile Include="WandD.cs" />
+    <Compile Include="ODEHelpers.cs" />
+    <Compile Include="ODESolver.cs" />
+    <Compile Include="Runge-Kutta.cs" />
+    <Compile Include="AxesConverter.cs" />
+    <Compile Include="Vector.cs" />
+    <Compile Include="VectorHelpers.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
+using System.Windows.Shapes;
+using System.Collections.Generic;
 
 namespace Eigenvalues
 {
@@ -36,6 +38,27 @@ namespace Eigenvalues
             else if (valign == VerticalAlignment.Bottom)
                 y -= label.DesiredSize.Height;
             Canvas.SetTop(label, y);
+        }
+        private void DrawPoints(OutputTypes outputType, InputData inputData, List<Vector> fullVectorsSet)
+        {
+            ODESolver result = new ODESolver();
+            List<string> output;
+            Path pointsPath = new Path();
+            pointsPath.Fill = Brushes.Black;
+            pointsPath.Stroke = Brushes.Black;
+            pointsPath.Data = result.Run(outputType, inputData, fullVectorsSet, out output);
+            // Draw Point
+            canGraph.Children.Add(pointsPath);
+            // Print Output
+            Print(output);
+        }
+
+        public static EllipseGeometry CreateEllipseGeometry(double x, double y)
+        { 
+            return new EllipseGeometry(AxesConverter.WtoD(
+                new Point(x*10, y*10)), // point position
+                3, 3 // radius
+                );
         }
     }
 }

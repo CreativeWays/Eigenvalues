@@ -3,11 +3,11 @@ using System.Windows.Media;
 
 namespace Eigenvalues
 {
-    public partial class MainWindow
+    public partial class AxesConverter
     {
         // Prepare values for perform transformations.
-        private Matrix WtoDMatrix, DtoWMatrix;
-        private void PrepareTransformations(
+        private static Matrix WtoDMatrix, DtoWMatrix;
+        public static void PrepareTransformations(
             double wxmin, double wxmax, double wymin, double wymax,
             double dxmin, double dxmax, double dymin, double dymax)
         {
@@ -27,13 +27,13 @@ namespace Eigenvalues
         }
 
         // Transform a point from world to device coordinates.
-        private Point WtoD(Point point)
+        public static Point WtoD(Point point)
         {
             return WtoDMatrix.Transform(point);
         }
 
         // Transform a point from device to world coordinates.
-        private Point DtoW(Point point)
+        public static Point DtoW(Point point)
         {
             return DtoWMatrix.Transform(point);
         }

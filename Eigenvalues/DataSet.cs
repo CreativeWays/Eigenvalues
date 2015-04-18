@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
-
+/*
 namespace Eigenvalues
 {
     public partial class MainWindow
@@ -16,7 +16,7 @@ namespace Eigenvalues
                 double last_y = rand.Next(3, 7);
 
                 DataPoints[data_set] = new PointCollection();
-                GeometryGroup xaxis_geom1 = new GeometryGroup();
+                GeometryGroup pointsGeometryGroup = new GeometryGroup();
 
                 for (double x = 0; x <= 100; x += 10)
                 {
@@ -25,7 +25,7 @@ namespace Eigenvalues
                     if (last_y > 10) last_y = 10;
                     Point p = new Point(x, last_y);
                     DataPoints[data_set].Add(WtoD(p));
-                    xaxis_geom1.Children.Add(
+                    pointsGeometryGroup.Children.Add(
                         new EllipseGeometry(WtoD(p), 3, 3)
                         );
                 }                
@@ -37,15 +37,16 @@ namespace Eigenvalues
                 polyline.Points = DataPoints[data_set];
 
                 canGraph.Children.Add(polyline);
-                */
-                Path xaxis_path1 = new Path();
-                xaxis_path1.Fill = Brushes.Black;
-                xaxis_path1.Stroke = Brushes.Black;
-                xaxis_path1.Data = xaxis_geom1;
+ 
+                Path pointsPath = new Path();
+                pointsPath.Fill = Brushes.Black;
+                pointsPath.Stroke = Brushes.Black;
+                pointsPath.Data = pointsGeometryGroup;
 
-                canGraph.Children.Add(xaxis_path1);                
+                canGraph.Children.Add(pointsPath);                
             }
             
         }
     }
 }
+ */
