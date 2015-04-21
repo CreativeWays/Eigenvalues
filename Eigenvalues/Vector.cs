@@ -35,6 +35,7 @@ namespace Eigenvalues
         }
         public Vector(Vector z)
         {
+            _size = z.Size;
             vector = new double[z.Size];
             for (int i = 0; i < z.Size; i++)
             {
@@ -52,7 +53,7 @@ namespace Eigenvalues
             else
             {
                 Vector temp = new Vector(x.Size);
-                for (int i = 0; i < temp.Size; i++)
+                for (int i = 1; i < temp.Size-1; i++)
                 {
                     temp[i] = x[i] + y[i];
                 }
@@ -62,7 +63,7 @@ namespace Eigenvalues
         public static Vector operator +(Vector x, double value)
         {
             Vector temp = new Vector(x.Size);
-            for (int i = 0; i < temp.Size; i++)
+            for (int i = 1; i < temp.Size-1; i++)
             {
                 temp[i] = x[i] + value;
             }
@@ -84,7 +85,7 @@ namespace Eigenvalues
             else
             {
                 Vector temp = new Vector(x.Size);
-                for (int i = 0; i < temp.Size; i++)
+                for (int i = 1; i < temp.Size - 1; i++)
                 {
                     temp[i] = x[i] - y[i];
                 }
@@ -104,7 +105,7 @@ namespace Eigenvalues
         public static Vector operator *(Vector x, double scal)
         {
             Vector temp = new Vector(x.Size);
-            for (int i = 0; i < temp.Size; i++)
+            for (int i = 1; i < temp.Size - 1; i++)
             {
                 temp[i] = x[i] * scal;
             }
@@ -123,7 +124,7 @@ namespace Eigenvalues
         public static Vector operator /(double scal, Vector x)
         {
             Vector temp = new Vector(x.Size);
-            for (int i = 0; i < temp.Size; i++)
+            for (int i = 1; i < temp.Size - 1; i++)
             {
                 temp[i] = 1 / x[i];
             }
@@ -155,7 +156,7 @@ namespace Eigenvalues
 
         public void Abs()
         {
-            for (int i = 0; i < Size; i++)
+            for (int i = 1; i < Size - 1; i++)
             {
                 this[i] = Math.Abs(this[i]);
             }

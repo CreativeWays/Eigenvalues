@@ -26,26 +26,41 @@ namespace Eigenvalues
             savePointArr[4] = Convert.ToInt32((1 + alpha) / dx);
             savePointArr[5] = Convert.ToInt32(alpha / dx) + 1;
         }
-        public static void RandomInit(out Vector[] vectors, int n, int dim, double radius)
+        public static void RandomInit(out Vector[] vectors, InputData inputData)
         {
+            Random rnd = new Random();
+            int n = inputData.TaskCount;
+            int dim = inputData.Dimension;
+            double radius = inputData.Radius;
+            
             vectors = VectorHelpers.CreateVectorArray(n, dim);
-            const double counter = 1.5;
             int lineDimention = Convert.ToInt32(Math.Sqrt(n));
-            double step = counter / lineDimention;
+            double step = radius / lineDimention;
             double along = 0.0;
             double across = 0.0;
             for (int i = 0; i < lineDimention; ++i)
             {
-                across = 0;
+                if (dim - 2 > 1)
+                    along = 0;
                 for (int j = 0; j < lineDimention; ++j)
                 {
+                    for (int k = 1; k < dim - 1; ++k)
+                    {
+                        if (k == inputData.XOnGraph && inputData.XOnGraph != 0)
+                            vectors[i * lineDimention + j][k] = across;
+                        else
+                            if (k == inputData.YOnGraph && inputData.YOnGraph != 0)
+                                vectors[i * lineDimention + j][k] = along;
+                            else
+                                vectors[i * lineDimention + j][k] = rnd.NextDouble();
+                        
+                    }
                     vectors[i * lineDimention + j][0] = 0;
                     vectors[i * lineDimention + j][dim - 1] = 0;
-                    vectors[i * lineDimention + j][1] = along;
-                    vectors[i * lineDimention + j][2] = across;
-                    across += step;
+
+                    along += step;
                 }
-                along += step;
+                across += step;
             }
         }
 

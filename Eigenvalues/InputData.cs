@@ -208,9 +208,9 @@ namespace Eigenvalues
         // TODO: Fill This With Initial Math Model
         public Vector f(double t, Vector y)
         {
-            Vector vector = new Vector(y.Size);
+            //Vector vector = new Vector(y.Size);
             // Do staff
-            return vector;
+            return y;
         }
     }
 }

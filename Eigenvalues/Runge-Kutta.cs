@@ -15,7 +15,7 @@ namespace Eigenvalues
         {
             double halfdx = 0.5 * dx;
 
-            Vector k1 = dx * f(0, y);
+            Vector k1 = dx * f(0, y.Clone());
             Vector k2 = dx * f(0 + halfdx, y + k1 * halfdx);
             Vector k3 = dx * f(0 + halfdx, y + k2 * halfdx);
 

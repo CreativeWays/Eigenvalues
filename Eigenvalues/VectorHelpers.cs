@@ -60,7 +60,7 @@ namespace Eigenvalues
         public static Vector[] CreateVectorArray(int membersCount, int dimmention)
         {
             Vector[] vectors = new Vector[membersCount];
-            for (int i = 1; i < membersCount; i++)
+            for (int i = 0; i < membersCount; i++)
             {
                 vectors[i] = new Vector(dimmention);
             }

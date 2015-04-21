@@ -39,7 +39,7 @@ namespace Eigenvalues
 
             // ----------------
             Vector[] startingPoints, vectorsAfterFirstIterationList = null, previousVectorsList = null;
-            ODEHelpers.RandomInit(out startingPoints, inputData.TaskCount, inputData.Dimension, inputData.Radius);
+            ODEHelpers.RandomInit(out startingPoints, inputData);
 
             // ----------------
             // Output
@@ -56,7 +56,7 @@ namespace Eigenvalues
             for (tIterator = 0; tIterator < maxIterationsAmount; ++tIterator)
             {
                 isThrSenceToGo = false;
-                if (outputType != OutputTypes.AfterT)
+                //if (outputType != OutputTypes.AfterT)
                     previousVectorsList = VectorHelpers.CreateCopyOfVectorArray(startingPoints);
 
                 // for 2 - it's initial points count
