@@ -8,7 +8,7 @@ namespace Eigenvalues
 {
     static class ODEHelpers
     {
-        public static void fillLeapArrays(double alpha, double dx, out int[] leapArr, out int[] savePointArr)
+        public static void FillLeapArrays(double alpha, double dx, out int[] leapArr, out int[] savePointArr)
         {
             leapArr = new int[4];
             savePointArr = new int[6];
@@ -35,7 +35,7 @@ namespace Eigenvalues
             
             vectors = VectorHelpers.CreateVectorArray(n, dim);
             int lineDimention = Convert.ToInt32(Math.Sqrt(n));
-            double step = radius / lineDimention;
+            double step = radius / ((dim - 2 > 1) ? lineDimention : n);
             double along = 0.0;
             double across = 0.0;
             for (int i = 0; i < lineDimention; ++i)

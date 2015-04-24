@@ -19,13 +19,17 @@ namespace Eigenvalues
         private int _continueNum;
         private double _epsilon;
         private double _dx;
+        private bool _isTest = false;
+
+        public delegate Vector FuncDel(double t, Vector y);
+        public FuncDel F;
 
         // Graph Preferences
-        public double Wxmin = -10;
-        public double Wxmax = 110;
+        public double Wxmin = -1;
+        public double Wxmax = 10;
         public double Wymin = -1;
-        public double Wymax = 11;
-        public double Xstep = 10;
+        public double Wymax = 10;
+        public double Xstep = 1;
         public double Ystep = 1;
         
         // Have to change It
@@ -41,11 +45,24 @@ namespace Eigenvalues
             _initialPoint = 0; // = Math.Min((_beta + 1) / (_alpha - _beta - 1), 1);
             _directionArrows = true;
             _radius = 1.5;
-            _taskCount = 100;
+            _taskCount = 1; // _taskCount = 100;
             _dimension = 3;
             _continueNum = 1;
             _epsilon = 0.1;
             _dx = 0.001;
+            F = FMain;
+        }
+
+        public void TestInitializing()
+        {
+            _isTest = true;
+            _alpha = 1.1;
+            _beta = 0.05;
+            _delta = 0.03;
+            _taskCount = 16; // _taskCount = 100;
+            _dimension = 3;
+            _radius = 0.6;
+            F = FTest;
         }
 
         // Properties
@@ -203,14 +220,29 @@ namespace Eigenvalues
                 }
             }
         }
+
+        public bool IsTest
+        {
+            get { return _isTest; }
+            set { _isTest = value; }
+        }
+
         #endregion
 
         // TODO: Fill This With Initial Math Model
-        public Vector f(double t, Vector y)
+        public Vector FMain(double t, Vector y)
         {
             //Vector vector = new Vector(y.Size);
             // Do staff
             return y;
+        }
+        public Vector FTest(double t, Vector y)
+        {
+            Vector vector = new Vector(y.Size);
+            vector[0] = 0;
+            vector[y.Size - 1] = 0;
+            vector[1] = -2 * _delta * Math.Sinh(y[1]);
+            return vector;
         }
     }
 }

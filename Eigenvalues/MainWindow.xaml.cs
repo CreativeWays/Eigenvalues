@@ -107,6 +107,13 @@ namespace Eigenvalues
             foreach (string line in Calculations.AnalyseEquilibriumStates(_inputData, _fullVectorsSet))
                 stateEquilibrium.Items.Add(line);
         }
+        
+        private void Test_btn_Click(object sender, RoutedEventArgs e)
+        {
+            _inputData.TestInitializing();
+            //DrawPoints(OutputTypes.All, _inputData, _fullVectorsSet);
+            DrawPoints(OutputTypes.AfterT, _inputData, _fullVectorsSet);
+        }
 
         public void Print(List<string> lines)
         {

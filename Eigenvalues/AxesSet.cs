@@ -15,11 +15,11 @@ namespace Eigenvalues
             double ytic = p1.Y - p0.Y;
 
             // Make the X axis.
-            GeometryGroup xaxis_geom = new GeometryGroup();
+            GeometryGroup xaxisGeom = new GeometryGroup();
             p0 = new Point(wxmin, 0);
             p1 = new Point(wxmax, 0);
             // Draw the line that starts in wxmin and ends in wxmax on Ox
-            xaxis_geom.Children.Add(
+            xaxisGeom.Children.Add(
                 new LineGeometry(
                     AxesConverter.WtoD(p0), AxesConverter.WtoD(p1)
                     )
@@ -30,7 +30,7 @@ namespace Eigenvalues
                 // Add the tic mark.
                 Point tic0 = AxesConverter.WtoD(new Point(x, -ytic));
                 Point tic1 = AxesConverter.WtoD(new Point(x, ytic));
-                xaxis_geom.Children.Add(new LineGeometry(tic0, tic1));
+                xaxisGeom.Children.Add(new LineGeometry(tic0, tic1));
 
                 // Label the tic mark's X coordinate.
                 DrawText(canGraph, x.ToString(),
@@ -40,18 +40,18 @@ namespace Eigenvalues
             }
 
             // Combine all lines (tic marks and Ox-axe) to 1 Path object that has color, thickness and other properties
-            Path xaxis_path = new Path();
-            xaxis_path.StrokeThickness = 1;
-            xaxis_path.Stroke = Brushes.Black;
-            xaxis_path.Data = xaxis_geom;
+            Path xaxisPath = new Path();
+            xaxisPath.StrokeThickness = 1;
+            xaxisPath.Stroke = Brushes.Black;
+            xaxisPath.Data = xaxisGeom;
 
-            canGraph.Children.Add(xaxis_path);
+            canGraph.Children.Add(xaxisPath);
 
             // Make the Y axis.
-            GeometryGroup yaxis_geom = new GeometryGroup();
+            GeometryGroup yaxisGeom = new GeometryGroup();
             p0 = new Point(0, wymin);
             p1 = new Point(0, wymax);
-            xaxis_geom.Children.Add(
+            xaxisGeom.Children.Add(
                 new LineGeometry(
                     AxesConverter.WtoD(p0), AxesConverter.WtoD(p1)
                     )
@@ -62,7 +62,7 @@ namespace Eigenvalues
                 // Add the tic mark.
                 Point tic0 = AxesConverter.WtoD(new Point(-xtic, y));
                 Point tic1 = AxesConverter.WtoD(new Point(xtic, y));
-                xaxis_geom.Children.Add(new LineGeometry(tic0, tic1));
+                xaxisGeom.Children.Add(new LineGeometry(tic0, tic1));
 
                 // Label the tic mark's Y coordinate.
                 DrawText(canGraph, y.ToString(),
@@ -71,12 +71,27 @@ namespace Eigenvalues
                     VerticalAlignment.Center);
             }
 
-            Path yaxis_path = new Path();
-            yaxis_path.StrokeThickness = 1;
-            yaxis_path.Stroke = Brushes.Black;
-            yaxis_path.Data = yaxis_geom;
+            Path yaxisPath = new Path();
+            yaxisPath.StrokeThickness = 1;
+            yaxisPath.Stroke = Brushes.Black;
+            yaxisPath.Data = yaxisGeom;
 
-            canGraph.Children.Add(yaxis_path);
+            canGraph.Children.Add(yaxisPath);
+
+            GeometryGroup directrix = new GeometryGroup();
+            p0 = new Point(0, 0);
+            p1 = new Point(wxmax, wymax);
+            directrix.Children.Add(
+                new LineGeometry(
+                    AxesConverter.WtoD(p0), AxesConverter.WtoD(p1)
+                    )
+                );
+            Path directrixPath = new Path();
+            directrixPath.StrokeThickness = 1;
+            directrixPath.Stroke = Brushes.Blue;
+            directrixPath.Data = directrix;
+
+            canGraph.Children.Add(directrixPath);
         }
     }
 }

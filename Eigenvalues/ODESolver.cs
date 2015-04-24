@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -17,6 +18,8 @@ namespace Eigenvalues
         {
             // ----------------
             GeometryGroup pointsGeometryGroup = new GeometryGroup();
+            // Temp
+            List<double> tempList = new List<double>();
 
             // ----------------
             // define T-count
@@ -35,7 +38,7 @@ namespace Eigenvalues
             // ----------------
             int[] leapArr;
             int[] savePointArr;
-            ODEHelpers.fillLeapArrays(inputData.Alpha, inputData.Dx, out leapArr, out savePointArr);
+            ODEHelpers.FillLeapArrays(inputData.Alpha, inputData.Dx, out leapArr, out savePointArr);
 
             // ----------------
             Vector[] startingPoints, vectorsAfterFirstIterationList = null, previousVectorsList = null;
@@ -102,7 +105,7 @@ namespace Eigenvalues
 					        }
 					        else
 					        {                            
-						        RungeKutta.MakeStep(ref startingPoints[startingPointIterator], inputData.Delta, inputData.Dx, inputData.Dimension, inputData.f);
+						        RungeKutta.MakeStep(ref startingPoints[startingPointIterator], inputData.Delta, inputData.Dx, inputData.Dimension, inputData.F);
 					        }
 
                         } // -- skipPointsIterator
@@ -119,7 +122,7 @@ namespace Eigenvalues
 
                     } // -- stepIterator
 
-                    // Abs It/
+                    // Abs It
                     // The reason why we can do this is writen in a base article that says:
                     // "в силу свойства нечетности Φ(z) устойчивой и неустойчивой неподвижным точкам из R+
                     //  отвечают аналогичные симметрично расположенные неподвижные точки из R−"
@@ -127,31 +130,35 @@ namespace Eigenvalues
                     // despite the fact that it's positive-definited or not
                     startingPoints[startingPointIterator].Abs();
 
-                    if (outputType != OutputTypes.All && tIterator == maxIterationsAmount - 1)
+                    if (outputType != OutputTypes.All)
                     {
                         pointsGeometryGroup.Children.Add(
-                            MainWindow.CreateEllipseGeometry(startingPoints[startingPointIterator][inputData.XOnGraph],
-                                            startingPoints[startingPointIterator][inputData.YOnGraph])
-                        );
+                            MainWindow.CreateEllipseGeometry(
+                                (inputData.XOnGraph == 0)
+                                    ? previousVectorsList[startingPointIterator][inputData.YOnGraph]
+                                    : startingPoints[startingPointIterator][inputData.XOnGraph],
+                                startingPoints[startingPointIterator][inputData.YOnGraph])
+                            );
                         fullVectorsSet.Add(startingPoints[startingPointIterator].Clone());
-
+                    }
+                    else if (outputType != OutputTypes.AfterT)
+                    {
                         // Analize result after another T-period
                         if (previousVectorsList == null) continue;
 
                         // Is this point has been changed?
-                        bool isNew = true;
-                        if (startingPoints[startingPointIterator].IsEqualsTo(previousVectorsList[startingPointIterator], 0.002))
+                        if (startingPoints[startingPointIterator].IsEqualsTo(
+                            previousVectorsList[startingPointIterator], 0.002))
                         {
-                            // If it's has been changed 
-                            isNew = false;
+                            // If it's hasn't been changed then there is a sence to iterate further
                             startingPoints[startingPointIterator][0] = -1;
-                            continue;
                         }
-
-                        // If it's hasn't been changed then there is a sence to iterate further
-                        isThrSenceToGo = true;
+                        else
+                        {
+                            // If it's did has been changed
+                            isThrSenceToGo = true;
+                        }
                     }
-                        
                 } // -- startingPointIterator
                 if (outputType != OutputTypes.AfterT)
                 {
@@ -165,7 +172,11 @@ namespace Eigenvalues
             
             // Output
             output.Add("Count of steps (T0): " + tIterator);
-
+            foreach (Vector vector in startingPoints)
+            {
+                output.Add(vector[1].ToString());
+            }
+            
             /*
             Point p = new Point(1, 1);
             DataPoints[0].Add(AxesConverter.WtoD(p));

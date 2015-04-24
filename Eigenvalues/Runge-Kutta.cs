@@ -7,15 +7,15 @@ namespace Eigenvalues
 {
     public static class RungeKutta
     {
-        public delegate Vector SmallRkDelegate(double x, Vector y);
+        //public delegate Vector SmallRkDelegate(double x, Vector y);
 
         private static double _sixth = 1.0 / 6.0;
 
-        public static void MakeStep(ref Vector y, double d, double dx, double dim, SmallRkDelegate f)
+        public static void MakeStep(ref Vector y, double d, double dx, double dim, InputData.FuncDel f)
         {
             double halfdx = 0.5 * dx;
 
-            Vector k1 = dx * f(0, y.Clone());
+            Vector k1 = dx * f(0, y);
             Vector k2 = dx * f(0 + halfdx, y + k1 * halfdx);
             Vector k3 = dx * f(0 + halfdx, y + k2 * halfdx);
 
@@ -31,7 +31,7 @@ namespace Eigenvalues
         }
         public static Vector Y2Func(Vector[] savedPoints, double alpha, double beta)
         {
-            return savedPoints[2] - (alpha / (alpha - 1)) * savedPoints[1];
+            return savedPoints[1] - (alpha / (alpha - 1)) * savedPoints[2];
         }
         public static Vector Y3Func(Vector[] savedPoints, double alpha, double beta)
         {
@@ -39,7 +39,7 @@ namespace Eigenvalues
         }
         public static Vector Y4Func(Vector[] savedPoints, double alpha, double beta)
         {
-            return savedPoints[5] - (alpha / (1 + beta)) * savedPoints[4];
+            return savedPoints[4] - (alpha / (1 + beta)) * savedPoints[5];
         }
     }
 }
