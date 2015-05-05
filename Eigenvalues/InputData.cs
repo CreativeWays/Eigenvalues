@@ -39,9 +39,9 @@ namespace Eigenvalues
         // --------------
         public InputData()
         {
-            _alpha = 2.0;
+            _alpha = 1.225;
             _beta = 0.05;
-            _delta = .095;
+            _delta = .1;
             _initialPoint = 0; // = Math.Min((_beta + 1) / (_alpha - _beta - 1), 1);
             _directionArrows = true;
             _radius = 1.5;
@@ -58,8 +58,8 @@ namespace Eigenvalues
             _isTest = true;
             _alpha = 1.1;
             _beta = 0.05;
-            _delta = 0.04;
-            _taskCount = 100; // _taskCount = 100;
+            _delta = 0.03;
+            _taskCount = 225; // _taskCount = 100;
             _dimension = 3;
             _radius = 0.6;
             F = FTest;

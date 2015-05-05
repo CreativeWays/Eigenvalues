@@ -128,7 +128,7 @@ namespace Eigenvalues
                     //  отвечают аналогичные симметрично расположенные неподвижные точки из R−"
                     // Which mean that one way or another any point will attract to the fixed point that it's belong
                     // despite the fact that it's positive-definited or not
-                    startingPoints[startingPointIterator].Abs();
+                    //startingPoints[startingPointIterator].Abs();
 
                     if (outputType == OutputTypes.AfterNt)
                     {
@@ -163,14 +163,13 @@ namespace Eigenvalues
             output.Add("Count of steps (T0): " + tIterator);
             foreach (Vector vector in startingPoints)
             {
-                output.Add(vector[1].ToString());
+                output.Add(String.Format("({0}, {1})", vector[1].ToString("0.00"), vector[2].ToString("0.00")));
             }
 
             if (outputType != OutputTypes.All)
             {
                 foreach (Vector vector in startingPoints)
                     fullVectorsSet.Add(vector.Clone());
-
                 foreach (Vector vector in 
                     (outputType == OutputTypes.AfterNt) ? 
                         VectorHelpers.FindUnicVectors(inputData, fullVectorsSet) : fullVectorsSet)
@@ -183,6 +182,14 @@ namespace Eigenvalues
                                     ? 0
                                     : vector[inputData.YOnGraph])
                             );
+                /*
+                for (int i = 0; i < startingPoints.Length; i++)
+                {
+                    pointsGeometryGroup.Children.Add(
+                            MainWindow.CreateEllipseGeometry(previousVectorsList[i][1], startingPoints[i][1]
+                            ));
+                }
+                */
             }
             
             /*
