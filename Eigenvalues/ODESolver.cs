@@ -14,7 +14,7 @@ namespace Eigenvalues
 
         // Here we getting all point and deciding which point to display
         // Input 
-        public GeometryGroup Run(OutputTypes outputType, InputData inputData, List<Vector> fullVectorsSet, out List<string> output)
+        public GeometryGroup Run(OutputTypes outputType, InputData inputData, out List<Vector> fullVectorsSet, out List<string> output)
         {
             // ----------------
             GeometryGroup pointsGeometryGroup = new GeometryGroup();
@@ -130,18 +130,7 @@ namespace Eigenvalues
                     // despite the fact that it's positive-definited or not
                     startingPoints[startingPointIterator].Abs();
 
-                    if (outputType != OutputTypes.All)
-                    {
-                        pointsGeometryGroup.Children.Add(
-                            MainWindow.CreateEllipseGeometry(
-                                (inputData.XOnGraph == 0)
-                                    ? previousVectorsList[startingPointIterator][inputData.YOnGraph]
-                                    : startingPoints[startingPointIterator][inputData.XOnGraph],
-                                startingPoints[startingPointIterator][inputData.YOnGraph])
-                            );
-                        fullVectorsSet.Add(startingPoints[startingPointIterator].Clone());
-                    }
-                    else if (outputType != OutputTypes.AfterT)
+                    if (outputType == OutputTypes.AfterNt)
                     {
                         // Analize result after another T-period
                         if (previousVectorsList == null) continue;
@@ -175,6 +164,25 @@ namespace Eigenvalues
             foreach (Vector vector in startingPoints)
             {
                 output.Add(vector[1].ToString());
+            }
+
+            if (outputType != OutputTypes.All)
+            {
+                foreach (Vector vector in startingPoints)
+                    fullVectorsSet.Add(vector.Clone());
+
+                foreach (Vector vector in 
+                    (outputType == OutputTypes.AfterNt) ? 
+                        VectorHelpers.FindUnicVectors(inputData, fullVectorsSet) : fullVectorsSet)
+                    pointsGeometryGroup.Children.Add(
+                            MainWindow.CreateEllipseGeometry(
+                                (inputData.XOnGraph == 0)
+                                    ? vector[inputData.YOnGraph]
+                                    : vector[inputData.XOnGraph],
+                                (inputData.XOnGraph == 0)
+                                    ? 0
+                                    : vector[inputData.YOnGraph])
+                            );
             }
             
             /*

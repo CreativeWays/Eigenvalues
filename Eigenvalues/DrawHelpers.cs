@@ -39,14 +39,14 @@ namespace Eigenvalues
                 y -= label.DesiredSize.Height;
             Canvas.SetTop(label, y);
         }
-        private void DrawPoints(OutputTypes outputType, InputData inputData, List<Vector> fullVectorsSet)
+        private void DrawPoints(OutputTypes outputType, InputData inputData, out List<Vector> fullVectorsSet)
         {
             ODESolver result = new ODESolver();
             List<string> output;
             Path pointsPath = new Path();
             pointsPath.Fill = Brushes.Black;
             pointsPath.Stroke = Brushes.Black;
-            pointsPath.Data = result.Run(outputType, inputData, fullVectorsSet, out output);
+            pointsPath.Data = result.Run(outputType, inputData, out fullVectorsSet, out output);
             // Draw Point
             canGraph.Children.Add(pointsPath);
             // Print Output

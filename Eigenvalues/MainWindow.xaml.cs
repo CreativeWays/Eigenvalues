@@ -67,17 +67,18 @@ namespace Eigenvalues
 
         private void showAfterT_btn_Click(object sender, RoutedEventArgs e)
         {
-            DrawPoints(OutputTypes.AfterT, _inputData, _fullVectorsSet);
+            DrawPoints(OutputTypes.AfterT, _inputData, out _fullVectorsSet);
         }
 
         private void showAfterNT_btn_Click(object sender, RoutedEventArgs e)
         {
-            DrawPoints(OutputTypes.AfterNt, _inputData, _fullVectorsSet);
+            //_inputData.TestInitializing(); // temp
+            DrawPoints(OutputTypes.AfterNt, _inputData, out _fullVectorsSet);
         }
 
         private void showAllPoints_btn_Click(object sender, RoutedEventArgs e)
         {
-            DrawPoints(OutputTypes.All, _inputData, _fullVectorsSet);
+            DrawPoints(OutputTypes.All, _inputData, out _fullVectorsSet);
         }
 
         private void AsymptoticCalculation_btn_Click(object sender, RoutedEventArgs e)
@@ -112,7 +113,7 @@ namespace Eigenvalues
         {
             _inputData.TestInitializing();
             //DrawPoints(OutputTypes.All, _inputData, _fullVectorsSet);
-            DrawPoints(OutputTypes.AfterT, _inputData, _fullVectorsSet);
+            DrawPoints(OutputTypes.AfterT, _inputData, out _fullVectorsSet);
         }
 
         public void Print(List<string> lines)

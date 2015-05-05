@@ -33,7 +33,7 @@ namespace Eigenvalues
                 xaxisGeom.Children.Add(new LineGeometry(tic0, tic1));
 
                 // Label the tic mark's X coordinate.
-                DrawText(canGraph, x.ToString(),
+                DrawText(canGraph, (x/10).ToString(),
                     new Point(tic0.X, tic0.Y + 5), 0, 12,
                     HorizontalAlignment.Center,
                     VerticalAlignment.Top);
@@ -65,7 +65,7 @@ namespace Eigenvalues
                 xaxisGeom.Children.Add(new LineGeometry(tic0, tic1));
 
                 // Label the tic mark's Y coordinate.
-                DrawText(canGraph, y.ToString(),
+                DrawText(canGraph, (y/10).ToString(),
                     new Point(tic0.X - 10, tic0.Y), -90, 12,
                     HorizontalAlignment.Center,
                     VerticalAlignment.Center);

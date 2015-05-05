@@ -26,27 +26,27 @@ namespace Eigenvalues
 
         // Graph Preferences
         public double Wxmin = -1;
-        public double Wxmax = 10;
+        public double Wxmax = 18;
         public double Wymin = -1;
-        public double Wymax = 10;
-        public double Xstep = 1;
-        public double Ystep = 1;
+        public double Wymax = 18;
+        public double Xstep = 2;
+        public double Ystep = 2;
         
         // Have to change It
-        public int XOnGraph = 0;
-        public int YOnGraph = 1;
+        public int XOnGraph = 1;
+        public int YOnGraph = 2;
 
         // --------------
         public InputData()
         {
-            _alpha = 1.185;
+            _alpha = 2.0;
             _beta = 0.05;
-            _delta = 0.035;
+            _delta = .095;
             _initialPoint = 0; // = Math.Min((_beta + 1) / (_alpha - _beta - 1), 1);
             _directionArrows = true;
             _radius = 1.5;
-            _taskCount = 1; // _taskCount = 100;
-            _dimension = 3;
+            _taskCount = 100; // _taskCount = 100;
+            _dimension = 4;
             _continueNum = 1;
             _epsilon = 0.1;
             _dx = 0.001;
@@ -58,8 +58,8 @@ namespace Eigenvalues
             _isTest = true;
             _alpha = 1.1;
             _beta = 0.05;
-            _delta = 0.03;
-            _taskCount = 16; // _taskCount = 100;
+            _delta = 0.04;
+            _taskCount = 100; // _taskCount = 100;
             _dimension = 3;
             _radius = 0.6;
             F = FTest;
@@ -229,12 +229,17 @@ namespace Eigenvalues
 
         #endregion
 
-        // TODO: Fill This With Initial Math Model
         public Vector FMain(double t, Vector y)
         {
-            //Vector vector = new Vector(y.Size);
-            // Do staff
-            return y;
+            Vector vector = new Vector(y.Size);
+            vector[0] = 0;
+            vector[y.Size - 1] = 0;
+            for (int i = 1; i < y.Size - 1; i++)
+            {
+                // d[exp y[j+1] + exp(−y[j]) − exp y[j] − exp(−y[j−1])],
+                vector[i] = _delta * (Math.Exp(y[i + 1]) + Math.Exp(-y[i]) - Math.Exp(y[i]) - Math.Exp(-y[i - 1]));
+            }
+            return vector;
         }
         public Vector FTest(double t, Vector y)
         {

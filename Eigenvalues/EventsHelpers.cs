@@ -18,23 +18,19 @@ namespace Eigenvalues
         // Return data_set = -1 if there is no point at this location.
         private void FindDataPoint(Point location, out int data_set)
         {
+            data_set = -1;
             if (_fullVectorsSet == null)
-            {
-                data_set = -1;
                 return;
-            }                
 
             // Check each data set.
-            for (data_set = 0; data_set < _fullVectorsSet.Capacity; data_set++)
+            for (data_set = 0; data_set < _fullVectorsSet.Count; data_set++)
             {
                 // See how far the location is from the data point.
                 Vector data_point = _fullVectorsSet[data_set];
                 double distance = FindDistanceBetweenVAndP(data_point, location);
-                if (distance < 4) return;
+                if (distance < 0.1) return;
             }
-
-            // We didn't find a point at this location.
-            
+            data_set = -1;
         }
     }
 }

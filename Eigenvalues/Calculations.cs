@@ -77,8 +77,8 @@ namespace Eigenvalues
                 recurrentStates = new List<Vector>();
             List<int> equilibriumStatesAmount = new List<int>();
             int countDotsInRange = 0;
-            
-            foreach (Vector vector in equilibriumStatesn)
+
+            foreach (Vector vector in fullVectorsSet)
             {
                 bool isThisDotInARange = vector.IsStayInCircle(2.0);
 
