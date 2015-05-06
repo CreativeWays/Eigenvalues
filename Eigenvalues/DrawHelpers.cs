@@ -60,5 +60,28 @@ namespace Eigenvalues
                 3, 3 // radius
                 );
         }
+        public static EllipseGeometry CreateBigEllipseGeometry(double x, double y)
+        {
+            return new EllipseGeometry(AxesConverter.WtoD(
+                new Point(x * 10, y * 10)), // point position
+                5, 5 // radius
+                );
+        }
+        public static CombinedGeometry CreateEmptyEllipseGeometry(double x, double y)
+        {
+            return new CombinedGeometry
+            {
+                Geometry1 = new EllipseGeometry(AxesConverter.WtoD(new Point(x * 10, y * 10)), 4, 4),
+                Geometry2 = new EllipseGeometry(AxesConverter.WtoD(new Point(x * 10, y * 10)), 3, 3),
+                GeometryCombineMode = GeometryCombineMode.Exclude,
+            };
+        }
+        public static LineGeometry CreateLineGeometry(double x, double y, double xOld, double yOld)
+        {
+            return new LineGeometry(
+                AxesConverter.WtoD(new Point(x * 10, y * 10)), // point position
+                AxesConverter.WtoD(new Point(xOld * 10, yOld * 10)) // point position
+                );
+        }
     }
 }

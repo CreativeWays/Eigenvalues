@@ -58,8 +58,8 @@ namespace Eigenvalues
             SetAxes(_inputData.Wxmin, _inputData.Wxmax, _inputData.Wymin, _inputData.Wymax, _inputData.Xstep, _inputData.Ystep);
 
             // Draw a Title
-            Point titleLocation = AxesConverter.WtoD(new Point(50, 10));
-            /*DrawText(canGraph, "Uh",
+            /*Point titleLocation = AxesConverter.WtoD(new Point(50, 10));
+            DrawText(canGraph, "Uh",
                 titleLocation, 0, 20,
                 HorizontalAlignment.Center,
                 VerticalAlignment.Top);*/

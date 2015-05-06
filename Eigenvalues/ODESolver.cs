@@ -41,8 +41,9 @@ namespace Eigenvalues
             ODEHelpers.FillLeapArrays(inputData.Alpha, inputData.Dx, out leapArr, out savePointArr);
 
             // ----------------
-            Vector[] startingPoints, vectorsAfterFirstIterationList = null, previousVectorsList = null;
+            Vector[] startingPoints, startingPointsCopy = null, vectorsAfterFirstIterationList = null, previousVectorsList = null;
             ODEHelpers.RandomInit(out startingPoints, inputData);
+            startingPointsCopy = VectorHelpers.CreateCopyOfVectorArray(startingPoints);
 
             // ----------------
             // Output
@@ -61,7 +62,7 @@ namespace Eigenvalues
                 isThrSenceToGo = false;
                 //if (outputType != OutputTypes.AfterT)
                     previousVectorsList = VectorHelpers.CreateCopyOfVectorArray(startingPoints);
-
+                    output.Add(String.Format("------------------------- {0} -----------------------------", tIterator));
                 // for 2 - it's initial points count
                 for (var startingPointIterator = 0; startingPointIterator < inputData.TaskCount; ++startingPointIterator)
                 {
@@ -70,7 +71,7 @@ namespace Eigenvalues
                     // for 3 - it's rg step 
                     // if first element of statring vector is equals to -1 then do nothing
                     if (startingPoints[startingPointIterator][0] == -1) continue;
-
+                    
                     // if this vector still in play then we keep calculating
                     for (var stepIterator = 0; stepIterator < iterationsCount; ++stepIterator)
                     {
@@ -110,16 +111,7 @@ namespace Eigenvalues
 
                         } // -- skipPointsIterator
 
-                        // fill fullVectorsSet
-                        if (outputType == OutputTypes.All)
-                        {
-                            pointsGeometryGroup.Children.Add(
-                                MainWindow.CreateEllipseGeometry(startingPoints[startingPointIterator][inputData.XOnGraph],
-                                            startingPoints[startingPointIterator][inputData.YOnGraph])
-                            );
-                            fullVectorsSet.Add(startingPoints[startingPointIterator].Clone());
-                        }
-
+                     
                     } // -- stepIterator
 
                     // Abs It
@@ -130,7 +122,7 @@ namespace Eigenvalues
                     // despite the fact that it's positive-definited or not
                     //startingPoints[startingPointIterator].Abs();
 
-                    if (outputType == OutputTypes.AfterNt)
+                    if (outputType != OutputTypes.AfterT)
                     {
                         // Analize result after another T-period
                         if (previousVectorsList == null) continue;
@@ -147,6 +139,38 @@ namespace Eigenvalues
                             // If it's did has been changed
                             isThrSenceToGo = true;
                         }
+
+                        if (outputType == OutputTypes.All)
+                        {
+                            if (tIterator == 0)
+                            {
+                                pointsGeometryGroup.Children.Add(
+                                MainWindow.CreateEmptyEllipseGeometry(previousVectorsList[startingPointIterator][inputData.XOnGraph],
+                                            previousVectorsList[startingPointIterator][inputData.YOnGraph])
+                                );
+                            }
+                            else
+                            {
+                                pointsGeometryGroup.Children.Add(
+                                MainWindow.CreateEllipseGeometry(previousVectorsList[startingPointIterator][inputData.XOnGraph],
+                                            previousVectorsList[startingPointIterator][inputData.YOnGraph])
+                                 );
+                            }
+                            
+                            if (inputData.DirectionArrows)
+                            {
+                                pointsGeometryGroup.Children.Add(
+                                        MainWindow.CreateLineGeometry(
+                                                startingPoints[startingPointIterator][inputData.XOnGraph], startingPoints[startingPointIterator][inputData.YOnGraph],
+                                                previousVectorsList[startingPointIterator][inputData.XOnGraph], previousVectorsList[startingPointIterator][inputData.YOnGraph]
+                                        ));
+                                output.Add(String.Format("({0}, {1}) --> ({2}, {3})",
+                                    previousVectorsList[startingPointIterator][inputData.XOnGraph].ToString("0.00"), previousVectorsList[startingPointIterator][inputData.YOnGraph].ToString("0.00"),
+                                    startingPoints[startingPointIterator][inputData.XOnGraph].ToString("0.00"), startingPoints[startingPointIterator][inputData.YOnGraph].ToString("0.00")
+                                    ));
+                            }
+                            fullVectorsSet.Add(startingPoints[startingPointIterator].Clone());
+                        }
                     }
                 } // -- startingPointIterator
                 if (outputType != OutputTypes.AfterT)
@@ -161,27 +185,44 @@ namespace Eigenvalues
             
             // Output
             output.Add("Count of steps (T0): " + tIterator);
-            foreach (Vector vector in startingPoints)
+            for (int i = 0; i < startingPoints.Length; i++)
             {
-                output.Add(String.Format("({0}, {1})", vector[1].ToString("0.00"), vector[2].ToString("0.00")));
+                if (outputType != OutputTypes.AfterT)
+                {
+                    output.Add(String.Format("({0}, {1}) --> ({2}, {3})",
+                        startingPointsCopy[i][1].ToString("0.00"), startingPointsCopy[i][2].ToString("0.00"),
+                        startingPoints[i][1].ToString("0.00"), startingPoints[i][2].ToString("0.00")
+                        ));
+                    if (outputType == OutputTypes.All)
+                    {
+                        pointsGeometryGroup.Children.Add(
+                                MainWindow.CreateBigEllipseGeometry(startingPoints[i][inputData.XOnGraph],
+                                            startingPoints[i][inputData.YOnGraph])
+                            );
+                    }
+                }
+                else
+                    output.Add(String.Format("({0}, {1})", startingPoints[i][1].ToString("0.00"), startingPoints[i][2].ToString("0.00")));
             }
 
             if (outputType != OutputTypes.All)
             {
                 foreach (Vector vector in startingPoints)
                     fullVectorsSet.Add(vector.Clone());
-                foreach (Vector vector in 
-                    (outputType == OutputTypes.AfterNt) ? 
-                        VectorHelpers.FindUnicVectors(inputData, fullVectorsSet) : fullVectorsSet)
+
+                foreach (Vector vector in
+                    (outputType == OutputTypes.AfterNt)
+                        ? VectorHelpers.FindUnicVectors(inputData, fullVectorsSet)
+                        : fullVectorsSet)
                     pointsGeometryGroup.Children.Add(
-                            MainWindow.CreateEllipseGeometry(
-                                (inputData.XOnGraph == 0)
-                                    ? vector[inputData.YOnGraph]
-                                    : vector[inputData.XOnGraph],
-                                (inputData.XOnGraph == 0)
-                                    ? 0
-                                    : vector[inputData.YOnGraph])
-                            );
+                        MainWindow.CreateEllipseGeometry(
+                            (inputData.XOnGraph == 0)
+                                ? vector[inputData.YOnGraph]
+                                : vector[inputData.XOnGraph],
+                            (inputData.XOnGraph == 0)
+                                ? 0
+                                : vector[inputData.YOnGraph])
+                        );
                 /*
                 for (int i = 0; i < startingPoints.Length; i++)
                 {

@@ -35,13 +35,13 @@ namespace Eigenvalues
             
             vectors = VectorHelpers.CreateVectorArray(n, dim);
             int lineDimention = Convert.ToInt32(Math.Sqrt(n));
-            double step = radius / ((dim - 2 > 1) ? lineDimention : n);
-            double along = 0.0;
-            double across = 0.0;
+            double step = (radius*2) / ((dim - 2 > 1) ? lineDimention : n);
+            double along = -radius;
+            double across = -radius;
             for (int i = 0; i < lineDimention; ++i)
             {
                 if (dim - 2 > 1)
-                    along = 0;
+                    along = -radius;
                 for (int j = 0; j < lineDimention; ++j)
                 {
                     for (int k = 1; k < dim - 1; ++k)
