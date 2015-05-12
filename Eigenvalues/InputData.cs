@@ -41,11 +41,11 @@ namespace Eigenvalues
         {
             _alpha = 1.275;
             _beta = 0.05;
-            _delta = .0385;
+            _delta = .054;
             _initialPoint = 0; // = Math.Min((_beta + 1) / (_alpha - _beta - 1), 1);
             _directionArrows = true;
             _radius = 1.5;
-            _taskCount = 400; // _taskCount = 100;
+            _taskCount = 2; // _taskCount = 100;
             _dimension = 4;
             _continueNum = 500;
             _epsilon = 0.1;

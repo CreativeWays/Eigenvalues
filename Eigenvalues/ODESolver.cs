@@ -52,7 +52,7 @@ namespace Eigenvalues
             output.Add("Computing has started...");
 
             // ----------------
-            int maxIterationsAmount = 100;
+            int maxIterationsAmount = 400;
             if (outputType == OutputTypes.AfterT) maxIterationsAmount = 1;
             // PointCollection pointsToDraw = new PointCollection();
 

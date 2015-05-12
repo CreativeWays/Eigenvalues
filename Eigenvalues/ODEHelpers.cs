@@ -38,6 +38,7 @@ namespace Eigenvalues
             double step = (radius*2) / ((dim - 2 > 1) ? lineDimention : n);
             double along = -radius;
             double across = -radius;
+
             for (int i = 0; i < lineDimention; ++i)
             {
                 if (dim - 2 > 1)

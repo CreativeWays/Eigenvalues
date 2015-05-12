@@ -92,6 +92,22 @@ namespace Eigenvalues
             directrixPath.Data = directrix;
 
             canGraph.Children.Add(directrixPath);
+
+            GeometryGroup directrY = new GeometryGroup();
+            p0 = new Point(0, 0);
+            p1 = new Point(-wxmax, -wymax);
+            directrY.Children.Add(
+                new LineGeometry(
+                    AxesConverter.WtoD(p0), AxesConverter.WtoD(p1)
+                    )
+                );
+
+            Path directrYPath = new Path();
+            directrYPath.StrokeThickness = 1;
+            directrYPath.Stroke = Brushes.Blue;
+            directrYPath.Data = directrY;
+
+            canGraph.Children.Add(directrYPath);
         }
     }
 }
