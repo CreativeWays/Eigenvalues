@@ -39,13 +39,13 @@ namespace Eigenvalues
         // --------------
         public InputData()
         {
-            _alpha = 1.275;
+            _alpha = 1.295;
             _beta = 0.05;
             _delta = .054;
             _initialPoint = 0; // = Math.Min((_beta + 1) / (_alpha - _beta - 1), 1);
             _directionArrows = true;
-            _radius = 1.5;
-            _taskCount = 2; // _taskCount = 100;
+            _radius = 2.5;
+            _taskCount = 200; // _taskCount = 100;
             _dimension = 4;
             _continueNum = 500;
             _epsilon = 0.1;

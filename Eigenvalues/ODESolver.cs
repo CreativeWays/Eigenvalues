@@ -62,7 +62,7 @@ namespace Eigenvalues
                 isThrSenceToGo = false;
                 //if (outputType != OutputTypes.AfterT)
                     previousVectorsList = VectorHelpers.CreateCopyOfVectorArray(startingPoints);
-                    output.Add(String.Format("------------------------- {0} -----------------------------", tIterator));
+                    //output.Add(String.Format("------------------------- {0} -----------------------------", tIterator));
                 // for 2 - it's initial points count
                 for (var startingPointIterator = 0; startingPointIterator < inputData.TaskCount; ++startingPointIterator)
                 {

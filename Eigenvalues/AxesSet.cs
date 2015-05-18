@@ -78,7 +78,7 @@ namespace Eigenvalues
 
             canGraph.Children.Add(yaxisPath);
 
-            GeometryGroup directrix = new GeometryGroup();
+            /*GeometryGroup directrix = new GeometryGroup();
             p0 = new Point(0, 0);
             p1 = new Point(wxmax, wymax);
             directrix.Children.Add(
@@ -106,8 +106,8 @@ namespace Eigenvalues
             directrYPath.StrokeThickness = 1;
             directrYPath.Stroke = Brushes.Blue;
             directrYPath.Data = directrY;
-
-            canGraph.Children.Add(directrYPath);
+            
+            canGraph.Children.Add(directrYPath);*/
         }
     }
 }
